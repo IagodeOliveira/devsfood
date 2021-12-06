@@ -1,15 +1,5 @@
 import Joi from "joi";
 
-type Obj = {
-  name: string;
-  email: string;
-  password: string;
-  state: string;
-  city: string;
-  address: string;
-  phone: string;
-}
-
 export const signUpValidate = (data: Obj) => {
   const schema = Joi.object({
     name: Joi.string().required().min(1).max(50),

@@ -24,10 +24,10 @@ export const Menu = styled.div`
   }
 
   .logout {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border: 1px solid #FFF;
-    background-color: #111;
+    background-color: #F00;
     border-radius: 50%;
     display: flex;
     justify-content: center;

@@ -1,14 +1,11 @@
+import { UserAction } from './types';
+
 const initialState = {
   token: localStorage.getItem("authToken"),
   email: ""
 };
 
-export interface AddUserToken {
-  type: string;
-  payload: string;
-};
-
-const UserReducer = (state = initialState, action: AddUserToken) => {
+const UserReducer = (state = initialState, action: UserAction) => {
   switch (action.type) {
     case "Set_Token":
       return { 

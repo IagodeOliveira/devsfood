@@ -4,3 +4,7 @@ export type Props = {
   link: string;
   title: string;
 }
+
+export type Active = {
+  bg: boolean;
+}

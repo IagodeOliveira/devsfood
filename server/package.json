@@ -28,6 +28,7 @@
     "@types/node": "^16.11.10",
     "@types/sequelize": "^4.28.10",
     "@types/validator": "^13.7.0",
-    "cors": "^2.8.5"
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0"
   }
 }

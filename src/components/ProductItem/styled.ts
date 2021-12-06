@@ -24,9 +24,11 @@ export const InfoArea = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  
 
   .productName {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
   }
 

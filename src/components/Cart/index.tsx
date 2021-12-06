@@ -8,6 +8,7 @@ import {
   ProductAmount,
   AddressArea,
   AddressInfo,
+  UserAddress,
   CuponArea,
   TotalArea,
   TotalInfo,
@@ -16,20 +17,9 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { User } from "../../reducer";
-import api from "../../api";
 
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
-
-type Products = {
-  id: number;
-  name: string;
-  image: string;
-  ingredients: string;
-  price: number;
-  amount: number;
-};
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const Cart = () => {
   const [show, setShow] = useState(false);
@@ -37,8 +27,8 @@ const Cart = () => {
   const [cartShow, setCartShow] = useState(true);
   const [onPurchase, setOnPurchase] = useState(false);
 
-  const {products, status } = useSelector((state: User) => state.cart);
-  const { token, email } = useSelector((state: User) => state.user);
+  const {products, address, status } = useSelector((state: User) => state.cart);
+  const { token } = useSelector((state: User) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -63,7 +53,7 @@ const Cart = () => {
     const getTotal = () => {
       let purchaseTotal = 0;
       for(let i in products) {
-        purchaseTotal += products[i].price * products[i].amount;
+        purchaseTotal += parseFloat(products[i].price) * products[i].amount;
       }
       setTotal(purchaseTotal);
     };
@@ -78,23 +68,23 @@ const Cart = () => {
   };
 
   const handleMinusPlusClick = (x: number, item: Products) => {
-    dispatch({
-      type: "Set_Amount",
-      payload: {
-        data: item,
-        amount: x 
-      }
-    });
+    if(status === 'off') {
+      dispatch({
+        type: "Set_Amount",
+        payload: {
+          data: item,
+          amount: x 
+        }
+      });
+    }
   };
 
   const handlePurchase = async () => {
     if(token !== "" && token !== null) {
       if(status === 'off') {
-        const address = await api.address(email);
         dispatch({
           type: "Ongoing",
-          payload: { 
-            address,
+          payload: {
             status: 'on'
           }
         });
@@ -107,7 +97,7 @@ const Cart = () => {
 
   return (
     <CartArea onClick={handleCartShow} show={cartShow}>
-      <CartHeader className="cartArea">
+      <CartHeader className="cartArea" show={show}>
         <img src="/assets/cart.png" alt="Cart" />
         <p className="cartArea">My Cart ({products.length})</p>
         {show && products.length > 0 && (
@@ -121,7 +111,7 @@ const Cart = () => {
               <img src={item.image} alt={item.name} />
               <ProductInfo>
                 <span>{item.name}</span>
-                <span>{item.price.toFixed(2)}</span>
+                <span>{parseFloat(item.price).toFixed(2)}</span>
               </ProductInfo>
               <ProductAmount show={onPurchase}>
                 <RemoveIcon
@@ -141,8 +131,18 @@ const Cart = () => {
         <AddressArea>
           <span className="delivery">Delivery</span>
           <AddressInfo>
-            <span>Address</span>
-            <img src="/assets/edit.png" alt="Edit" />
+            {address.length === 0 && <span>Address</span>}
+            {address.length === 1 &&
+              <>
+                <UserAddress>
+                  <span className="span1">Address</span>
+                  <span className="span2">{address[0].phone}</span>
+                  <span>{address[0].address}</span>
+                  <span>{address[0].city + ', ' + address[0].state}</span>
+                </UserAddress>
+                <img src="/assets/edit.png" alt="Edit" onClick={() => navigate('/profile')} />
+              </>
+            }
           </AddressInfo>
         </AddressArea>
 

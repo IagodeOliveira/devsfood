@@ -1,7 +1,6 @@
-import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { LinkArea, LinkIcon } from './styled';
-import { Props } from './interfaces';
+import { Props } from './types';
 
 import LoginIcon from '@mui/icons-material/Login';
 
@@ -11,13 +10,8 @@ const MenuItem = ({ icon, link, title }: Props) => {
 
   let active = location.pathname === link;
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    navigate(link);
-  }
-
   return (
-    <LinkArea data-tip={title} data-for="tip-right" bg={active} href={link} onClick={handleLinkClick}>
+    <LinkArea data-tip={title} data-for="tip-right" bg={active} onClick={() => navigate(link)}>
       {icon.length > 0 && <LinkIcon src={icon} alt="icon" />}
       {icon.length === 0 && <LoginIcon className="loginIcon" />}
     </LinkArea>

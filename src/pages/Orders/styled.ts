@@ -1,14 +1,5 @@
 import styled from 'styled-components';
-
-type Bar = {
-  sent: boolean;
-  delivered: boolean;
-  bar: number;
-}
-
-type BarHandle = {
-  data: Bar;
-}
+import { BarHandle } from './types';
 
 export const Container = styled.div`
   display: flex;
@@ -20,13 +11,13 @@ export const Container = styled.div`
 
 export const CurrentOrder = styled.div<BarHandle>`
   min-height: 200px;
-  max-height: 290px;
-  overflow-y: auto;
+  height: 290px;
   background-color: #FFF;
   border-radius: 10px;
   padding: 25px;
   font-size: 17px;
   position: relative;
+  overflow: hidden;
 
   .back {
     width: 97%;
@@ -91,7 +82,22 @@ export const OrderInfo = styled.div`
 export const ProductArea = styled.div`
   display: flex;
   flex-direction: column;
-  width: 250px;
+  width: 310px;
+  height: 225px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #333;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #136713;
+  }
 `;
 
 export const OrderItem = styled.div`
@@ -114,7 +120,7 @@ export const OrderItem = styled.div`
     justify-content: center;
 
     .name {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
     }
 
@@ -134,7 +140,7 @@ export const AddressArea = styled.div`
   flex: 1;
 `;
 
-export const Date_Address = styled.div`
+export const DateAddress = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
@@ -152,7 +158,7 @@ export const Date_Address = styled.div`
 
 export const TotalArea = styled.div`
   display: flex;
-  width: 250px;
+  width: 310px;
   justify-content: space-between;
   padding-top: 12px;
 `;
@@ -190,15 +196,38 @@ export const TotalItem = styled.div`
   }
 `;
 
-export const DoneOrders = styled.div`
+export const DoneOrders = styled.div<BarHandle>`
   display: flex;
   flex-direction: column;
+  height: ${props => props.data.status === 'on' ? '230px' : '100%'};
   margin: 20px 0;
   color: #136713;
+  overflow-y: auto;
 
-  .previous {
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #333;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #136713;
+  }
+
+  .no_previous, .previous {
     color: #FFF;
     padding: 10px 12px;
+    font-weight: bold;
+  }
+
+  .no_previous {
+    font-size: 22px;
+  }
+
+  .previous {
+    font-size: 18px;
   }
 `;
 
@@ -211,14 +240,29 @@ export const DeliveryArea = styled.div`
 export const DeliveryItem = styled.div`
   box-sizing: border-box;
   width: 380px;
-  height: 120px;
-  border-radius: 10px;
+  height: 115px;
   background-color: #FFF;
   padding: 10px;
   font-size: 14px;
   display: flex;
+  border-radius: 10px;
   justify-content: space-between;
   overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: #333;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #136713;
+    border-right: 3px solid rgba(0, 0, 0, 0);
+    border-left: 3px solid rgba(0, 0, 0, 0);
+    background-clip: padding-box;
+  }
 `;
 
 export const Left = styled.div`
@@ -232,7 +276,7 @@ export const LeftItem = styled.div`
   width: inherit;
   height: 45px;
   margin-bottom: 8px;
-  border-bottom: 1px solid #DDD;
+  border-bottom: 1px dotted #136713;
 
   img {
     width: 90px;

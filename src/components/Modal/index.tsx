@@ -1,13 +1,8 @@
-import { MouseEvent, ReactNode } from 'react';
+import { MouseEvent } from 'react';
 import { Container, ModalBody } from './styled';
+import { Props } from './types';
 
-type ModalProps = {
-  modal: boolean;
-  setModal: (e: boolean) => void;
-  children: ReactNode;
-}
-
-const Modal = ({ children, modal, setModal }: ModalProps) => {
+const Modal = ({ children, modal, setModal }: Props) => {
   const handleModal = (e: MouseEvent) => {
     if((e.target as HTMLElement).classList.contains('Container')) {
       setModal(false);

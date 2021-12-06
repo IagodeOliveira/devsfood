@@ -11,6 +11,7 @@ export const ProductArea = styled.div`
 
   img {
     width: 310px;
+    height: 203px;
     border-radius: 10px;
   }
 

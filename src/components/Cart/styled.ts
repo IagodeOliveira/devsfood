@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-
-type Show = {
-  show: boolean;
-}
+import { Show } from './types';
 
 export const CartArea = styled.div<Show>`
   border-top-left-radius: 10px;
@@ -15,12 +12,15 @@ export const CartArea = styled.div<Show>`
   display: ${props => props.show ? 'block' : 'none'};
 `;
 
-export const CartHeader = styled.div`
-  width: 290px;
+export const CartHeader = styled.div<Show>`
+  min-width: 290px;
   height: 45px;
   display: flex;
   align-items: center;
   cursor: pointer;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: ${props => props.show ? '0 0 5px #111' : 'none'};
 
   img {
     width: 23px;
@@ -47,6 +47,20 @@ export const CartBody = styled.div<Show>`
 
 export const ProductArea = styled.div`
   width: 100%;
+  max-height: 210px;
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #FFF;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #111;
+  }
 `;
 
 export const ProductItem = styled.div`
@@ -55,8 +69,9 @@ export const ProductItem = styled.div`
 
   img {
     width: 64px;
-    height: auto;
+    height: 42px;
     border-radius: 10px;
+    object-fit: cover;
   }
 `;
 
@@ -115,6 +130,23 @@ export const AddressInfo = styled.div`
     width: 16px;
     height: 16px;
     cursor: pointer;
+  }
+`;
+
+export const UserAddress = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  .span1 {
+    font-weight: bold;
+  }
+
+  & *:not(.span1) {
+    font-size: 12px;
+  }
+
+  .span2 {
+    font-size: 11px;
   }
 `;
 

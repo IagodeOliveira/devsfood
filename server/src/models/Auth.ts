@@ -1,16 +1,5 @@
-import { Model, DataTypes } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import { sequelize } from '../instances';
-
-export interface AuthInstance extends Model{
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  state: string;
-  city: string;
-  address: string;
-  phone: string;
-}
 
 export const Auth = sequelize.define<AuthInstance>('Auth', {
   id: {

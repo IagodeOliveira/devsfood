@@ -23,7 +23,14 @@ const Login = () => {
       dispatch({
         type: 'Set_Token',
         payload: res.email
-      })
+      });
+      const address = await api.address(email);
+      dispatch({
+        type: "Set_Address",
+        payload: {
+          address
+        }
+      });
       reset();
       navigate("/");
     }
@@ -32,6 +39,7 @@ const Login = () => {
     }
     return;
   };
+
 
   return (
     <Container>

@@ -1,14 +1,8 @@
-// import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Container } from "./styled";
+import { Props } from './types';
 
-type Prop = {
-  search: string;
-  onSearch: (e: string) => void;
-}
-
-const Header = ({ search, onSearch }: Prop) => {
-  // const navigate = useNavigate();
+const Header = ({ search, onSearch }: Props) => {
   const [inputActive, setInputActive] = useState(search === '' ? false : true);
 
   const handleBlur = () => {

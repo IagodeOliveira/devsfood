@@ -1,11 +1,5 @@
-import { Model, DataTypes } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import { sequelize } from '../instances';
-
-export interface CategoriesInstance extends Model{
-  id: number;
-  image: string;
-  name: string;
-}
 
 export const Categories = sequelize.define<CategoriesInstance>('Categories', {
   id: {

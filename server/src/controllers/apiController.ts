@@ -6,20 +6,11 @@ import { Categories } from '../models/Categories';
 import { Products } from '../models/Products';
 import { Auth } from '../models/Auth';
 import { Orders } from '../models/Orders';
-import { Sequelize, Op } from 'sequelize';
+import { Op } from 'sequelize';
 import { signUpValidate, loginValidate } from './validate';
+import * as newProducts from '../products';
 
 dotenv.config();
-
-  interface RequestProducts {
-    category?: string;
-    page: string;
-    search?: string;
-  }
-
-  interface RequestQuery {
-    query: RequestProducts;
-  }
 
 export const categories = async (req: Request, res: Response) => {
   let categories = [];
@@ -44,13 +35,13 @@ export const categories = async (req: Request, res: Response) => {
 export const createCategories = async (req: Request, res: Response) => {
   // let categories = [
   //   {
-  //     image: '/assets/cat/pie',
+  //     image: '/assets/cat/pie.png',
   //     name: 'Pies'
   //   }, {
-  //     image: '/assets/cat/donut',
+  //     image: '/assets/cat/donut.png',
   //     name: 'Donuts'
   //   }, {
-  //     image: '/assets/cat/cookies',
+  //     image: '/assets/cat/cookies.png',
   //     name: 'Cookies'
   //   }
   // ];
@@ -71,8 +62,6 @@ export const products = async (req: RequestQuery, res: Response) => {
 
   const Category = parseInt(category);
   const Page = parseInt(page);
-
-  console.log(Category, Page, search);
 
   let products = [];
   try {
@@ -139,7 +128,6 @@ export const products = async (req: RequestQuery, res: Response) => {
 
     const pages = Math.ceil(allProducts.length / 6);
 
-
     if(products.length > 0) {
       res.json({
         error: "",
@@ -158,66 +146,8 @@ export const products = async (req: RequestQuery, res: Response) => {
   }
 };
 
-//C:\Users\iago\Desktop\Programação\Códigos\Devs_Food\devsfood\public\assets\prod
-
 export const createProducts = async (req: Request, res: Response) => {
-  // let products = [
-  //   {
-  //     id_cat: 1,
-  //     image: '/assets/prod/chocolate-pie.png',
-  //     ingredients: 'bittersweet chocolate, cornstarch, whole milk, salt, sugar, egg yolk, butter, whipped cream, vanilla extract',
-  //     name: 'Chocolate Pie',
-  //     price: 60
-  //   },
-
-  //   {
-  //     id_cat: 1,
-  //     image: '/assets/prod/cherry-pie.png',
-  //     ingredients: 'cherry, sugar, lemon juice, cornstarch, vinegar, egg, salted butter, flour, kosher salt',
-  //     name: 'Cherry Pie',
-  //     price: 55
-  //   }, 
-
-  //   {
-  //     id_cat: 1,
-  //     image: '/assets/prod/strawberry-pie.png',
-  //     ingredients: 'strawberries, pie crust, granulated sugar, vanilla extract, cornstarch, whipped cream',
-  //     name: 'Strawberry  Pie',
-  //     price: 55
-  //   }, 
-
-  //   {
-  //     id_cat: 2,
-  //     image: '/assets/cat/chocolate-donut.png',
-  //     ingredients: 'chocolate icing, chocolate sprinkles, wheat flour, starch, whey, egg, sugar, salt',
-  //     name: 'Chocolate Frosted Donut',
-  //     price: 10
-  //   }, 
-
-  //   {
-  //     id_cat: 2,
-  //     image: '/assets/cat/double-donut.png',
-  //     ingredients: 'chocolate icing, wheat flour, starch, whey, egg white, sugar, salt',
-  //     name: 'Double Chocolate Donut',
-  //     price: 18
-  //   }, 
-
-  //   {
-  //     id_cat: 2,
-  //     image: '/assets/cat/strawberry-donut.png',
-  //     ingredients: 'strawberry icing, wheat flour, nonfat dry milk, sugar, cornstarch, salt, ',
-  //     name: 'Strawberry Sprinkles Donut',
-  //     price: 12
-  //   }, 
-
-  //   {
-  //     id_cat: 3,
-  //     image: '/assets/prod/oatmeal-cookies.png',
-  //     ingredients: 'oats, brown sugar, salt, egg, butter, vanilla extract, baking soda, flour',
-  //     name: 'Oatmeal Cookies',
-  //     price: 25
-  //   },
-  // ];
+  // let products = newProducts.default;
   // for(let i in products) {
   //   try {
   //     await Products.create({
@@ -232,58 +162,6 @@ export const createProducts = async (req: Request, res: Response) => {
   //   }
   // }
 };
-
-// export const nome = (req: Request, res: Response) => {
-//   let nome = req.params.nome;
-//   res.json( { nome: `Tu sent the name: ${nome}` });
-// };
-
-// export const createPhrase = async (req: Request, res: Response) => {
-//   let { author, txt } = req.body;
-//   // res.json( { corpo: req.body });
-//   let newPhrase = await Categories.create({author, txt});
-//   res.json({ id: newPhrase.id, author, txt });
-// };
-
-// export const getPhrase = async (req: Request, res: Response) => {
-//   let { id } = req.params;
-//   let phrase = await Categories.findByPk(id);
-//   if(phrase) {
-//     res.json({ phrase });
-//   } else {
-//     res.status(404);
-//     res.json({ error: 'Phrase not found' });
-//   }
-// };
-
-// export const updatePhrase = async (req: Request, res: Response) => {
-//   let { id } = req.params;
-//   let { author, txt } = req.body;
-
-//   let phrase = await Categories.findByPk(id);
-//   if(phrase) {
-//     phrase.author = author;
-//     phrase.txt = txt;
-//     await phrase.save();
-//     res.json({ phrase });
-//   } else {
-//     res.status(404);
-//     res.json({ error: 'Phrase not found' });
-//   }
-// };
-
-// export const randomPhrase = async (req: Request, res: Response) => {
-//   let phrase = await Categories.findOne({
-//     order: [
-//       Sequelize.fn('RANDOM')
-//     ]
-//   });
-//   if(phrase) {
-//     res.json({ phrase });
-//   } else {
-//     res.json({ error: 'Phrase not found' });
-//   }
-// };
 
 export const signUp = async (req: Request, res: Response) => {
   const obj = req.body.obj;
@@ -301,18 +179,80 @@ export const signUp = async (req: Request, res: Response) => {
     if(response) {
       return res.status(400).send("Email already registered");
     }
-    // await Auth.create({
-    //   name: obj.name,
-    //   email: obj.email,
-    //   password: bcrypt.hashSync(obj.password, bcrypt.genSaltSync(10)),
-    //   state: obj.state,
-    //   city: obj.city,
-    //   address: obj.address,
-    //   phone: obj.phone
-    // });
+    await Auth.create({
+      name: obj.name,
+      email: obj.email,
+      password: bcrypt.hashSync(obj.password, bcrypt.genSaltSync(10)),
+      state: obj.state,
+      city: obj.city,
+      address: obj.address,
+      phone: obj.phone
+    });
     return res.status(200).send("User registered with success");
   } catch (error) {
     return res.status(400).send(`User could not be registered: ${error}`);
+  }
+};
+
+export const newProfile = async (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(401).send("Restricted Area");
+  } else {
+    const obj = req.body.obj;
+    const email = req.body.email;
+
+    let profile = {
+      name: obj.name,
+      email: obj.email,
+      password: bcrypt.hashSync(obj.password, bcrypt.genSaltSync(10)),
+      state: obj.state,
+      city: obj.city,
+      address: obj.address,
+      phone: obj.phone
+    };
+
+    const { error } = signUpValidate(req.body.obj);
+    if (error) {
+      return res.status(400).send(`Profile could not be updated: ${error.message}`);
+    }
+
+    try {
+      const response: any = await Auth.findOne({
+        where: { email }
+      });
+
+      if(email !== obj.email) {
+        const newResponse: any = await Auth.findOne({
+          where: { email: obj.email }
+        });
+        if(newResponse) {
+          return res.status(400).send("Email already exist");
+        }
+      }
+
+      if(!response) {
+        return res.status(400).send("User not found");
+      }
+
+      await Auth.update(profile,
+        {where: 
+          { email }
+        }
+      );
+
+      const newProfile = {
+        name: obj.name,
+        email: obj.email,
+        state: obj.state,
+        city: obj.city,
+        address: obj.address,
+        phone: obj.phone
+      };
+
+      return res.status(200).json(newProfile);
+    } catch (error) {
+      return res.status(400).send(`Profile could not be updated: ${error}`);
+    }
   }
 };
 
@@ -341,10 +281,8 @@ export const login = async (req: Request, res: Response) => {
     const token = jwt.sign(
       { name: user.name, email },
       (process.env.TOKEN_SECRET as string),
-      { expiresIn: 1800 }
+      { expiresIn: 10 }
     );
-
-    console.log(token);
 
     res.header("authorizationtoken", token);
     res.status(201).json(email);
@@ -367,7 +305,6 @@ export const address = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(400).send("User not exist");
     }
-    console.log(user);
     res.json(user);
   } catch (error) {
     console.log(error);
@@ -378,6 +315,7 @@ export const newOrder = async (req: Request, res: Response) => {
   let order = req.body.order;
   try {
     await Orders.create({
+      email: order.email,
       date: order.date,
       products: order.products,
       total: order.total
@@ -389,23 +327,33 @@ export const newOrder = async (req: Request, res: Response) => {
 };
 
 export const orders = async (req: Request, res: Response) => {
-  let orders = [];
-  try {
-    const response: any = await Orders.findAll();
-    for(let i in response) {
-      orders.push(response[i].dataValues);
-    }
-    if(orders.length > 0) {
-      res.json({ 
-        error: "",
-        result: orders
+  if (!req.user) {
+    return res.status(401).send("Restricted Area");
+  } else {
+    let email = req.body.email;
+    let orders = [];
+    try {
+      const response: any = await Orders.findAll({
+        where: { email },
+        order: [
+          ['date', 'DESC']
+        ]
       });
-      return;
-    } 
-    res.json({error: "An error has happened", result: []});
+      for(let i in response) {
+        orders.push(response[i].dataValues);
+      }
+      if(orders.length > 0) {
+        res.json({ 
+          error: "",
+          result: orders
+        });
+        return;
+      } 
+      res.json({error: "An error has happened", result: []});
 
-  } catch (error) {
-    res.status(400).send(error);
+    } catch (error) {
+      res.status(400).send(error);
+    }
   }
 };
 

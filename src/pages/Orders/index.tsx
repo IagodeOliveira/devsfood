@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   CurrentOrder,
@@ -8,7 +9,7 @@ import {
   ProductArea,
   OrderItem,
   AddressArea,
-  Date_Address,
+  DateAddress,
   TotalArea,
   TotalItem,
   DoneOrders,
@@ -18,24 +19,7 @@ import {
   LeftItem,
   Right
 } from "./styled";
-import { User } from "../../reducer";
 import api from "../../api";
-
-type Products = {
-  id: number;
-  id_cat: number;
-  name: string;
-  image: string;
-  ingredients: string;
-  price: number;
-  amount: number;
-};
-
-type Delivers = {
-  date: string[];
-  products: Products[];
-  total: string;
-}
 
 const Orders = () => {
   const [total, setTotal] = useState(0);
@@ -44,17 +28,18 @@ const Orders = () => {
   const [bar, setBar] = useState(26);
   const [delivers, setDelivers] = useState([] as Delivers[]);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { email } = useSelector((state: User) => state.user);
+  const { email, token } = useSelector((state: User) => state.user);
   const { products, address, status } = useSelector((state: User) => state.cart);
 
-  console.log(status);
   let obj = address[0];
 
   let data = {
     sent,
     delivered,
-    bar
+    bar,
+    status
   }
 
   let date = new Date().toLocaleTimeString([], {
@@ -68,21 +53,37 @@ const Orders = () => {
   useEffect(() => {
     let totalPrice = 0;
     for(let i in products) {
-      totalPrice += products[i].price;
+      totalPrice += parseFloat(products[i].price);
     }
     setTotal(totalPrice);
-  }, []);
+  }, [products]);
 
   useEffect(() => {
+    const handleLogOut = () => {
+      localStorage.setItem('authToken', "");
+      dispatch({
+        type: "Reset",
+        payload: {}
+      });
+      dispatch({
+        type: "Set_Token",
+        payload: ""
+      });
+    }
+
     const getDelivers = async () => {
-      const orders = await api.getOrders();
-      console.log(orders);
+      const orders = await api.getOrders(email, token);
       if(orders.status === 200 && orders.data.error === '') {
         setDelivers(orders.data.result);
       }
+      if(orders.status === 401 && orders.data === "") {
+        navigate('/login');
+        handleLogOut();
+        alert("Your session expired. Please login again");
+      }
     };
     getDelivers();
-  }, [status]);
+  }, [status, email, token]);
 
   const handleSend = () => {
     if(!delivered) {
@@ -96,7 +97,7 @@ const Orders = () => {
       setDelivered(true);
       setBar(95);
       let orderData = {
-        date, products: JSON.stringify(products), total, 
+        email, date, products: JSON.stringify(products), total, 
       }
       const order = await api.newOrder(orderData);
       if(order === 200) {
@@ -110,9 +111,23 @@ const Orders = () => {
     }
   }
 
+  const handleCancel = () => {
+    if(!sent) {
+      dispatch({
+        type: "Order_Canceled",
+        payload: {
+          status: 'off'
+        }
+      });
+      navigate("/");
+    } else {
+      alert('Order already sent');
+    }
+  }
+
   return (
     <Container>
-      {status === 'on' &&<CurrentOrder data={data}>
+      {status === 'on' && <CurrentOrder data={data}>
         <hr className="back" />
         <hr className="front" />
         <span className="received" />
@@ -136,16 +151,16 @@ const Orders = () => {
             ))}
           </ProductArea>
           <AddressArea>
-            <Date_Address>
+            <DateAddress>
               <span className="span1">Order Date</span>
               <span className="span2">{date}</span>
-            </Date_Address>
-            <Date_Address>
+            </DateAddress>
+            <DateAddress>
               <span className="span1">Delivery Address</span>
               <span className="span2">{obj.phone}</span>
               <span className="span2">{obj.address}</span>
               <span className="span2">{obj.city + ', ' + obj.state}</span>
-            </Date_Address>
+            </DateAddress>
           </AddressArea>
           <TotalArea>
             <TotalItem>
@@ -159,37 +174,42 @@ const Orders = () => {
               <span>{total.toFixed(2)}</span>
               <button className="sendOrder" onClick={handleSend}>Send Order</button>
               <button onClick={handleDeliver}>Deliver Order</button>
-              <button className="cancelOrder" onClick={() => setSent(true)}>Cancel Order</button>
+              <button className="cancelOrder" onClick={handleCancel}>Cancel Order</button>
             </TotalItem>
           </TotalArea>
         </OrderInfo>
       </CurrentOrder>}
-      <DoneOrders>
-        <span className="previous">Previous Orders</span>
-        <DeliveryArea>
-        {delivers.map((item, index) => (
-          <DeliveryItem key={index}>
-            <Left>
-            {item.products.map((product, index) => (
-              <LeftItem key={index}>
-                <img src={product.image} alt="product" />
-                <div>
-                  <span>R$ {product.price}</span>
-                  <span>x{product.amount}</span>
-                </div>
-              </LeftItem>
+      <DoneOrders data={data}>
+        {delivers.length === 0 && <span className="no_previous">No Previous Orders</span>}
+        {delivers.length > 0 &&
+          <>
+            <span className="previous">Previous Orders</span>
+            <DeliveryArea>
+            {delivers.map((item, index) => (
+              <DeliveryItem key={index}>
+                <Left>
+                {item.products.map((product, index) => (
+                  <LeftItem key={index}>
+                    <img src={product.image} alt="product" />
+                    <div>
+                      <span>R$ {product.price}</span>
+                      <span>x{product.amount}</span>
+                    </div>
+                  </LeftItem>
+                ))}
+                </Left>
+                <Right>
+                  <div>
+                    <span>{item.date[0]}</span>
+                    <span className="rightDate">{item.date[1]}</span>
+                  </div>
+                  <span>R$ {item.total}</span>
+                </Right>
+              </DeliveryItem>
             ))}
-            </Left>
-            <Right>
-              <div>
-                <span>{item.date[0]}</span>
-                <span className="rightDate">{item.date[1]}</span>
-              </div>
-              <span>R$ {item.total}</span>
-            </Right>
-          </DeliveryItem>
-        ))}
-        </DeliveryArea>
+            </DeliveryArea>
+          </>
+        }
       </DoneOrders>
     </Container>
   );

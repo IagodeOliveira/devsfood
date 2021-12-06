@@ -1,25 +1,100 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux';
+import ReactToolTip from 'react-tooltip';
+import LogoutIcon from '@mui/icons-material/Logout';
+
+import { Container, Menu, PageBody } from './appStyled';
+import HomeScreen from './pages/HomeScreen';
+import Login from './pages/Login';
+import SignUp from './pages/SignUp';
+import Orders from './pages/Orders';
+import Profile from './pages/Profile';
+import MenuItem from './components/MenuItem';
+import Cart from './components/Cart';
+import RequireAuth, { RequireNoAuth } from './components/RequireAuth';
 
 function App() {
+  const dispatch = useDispatch();
+  const { email } = useSelector((state: User) => state.user);
+
+  const handleLogOut = () => {
+    localStorage.setItem('authToken', "");
+    if (email !== "") {
+      dispatch({
+        type: "Reset",
+        payload: {}
+      });
+      dispatch({
+        type: "Set_Token",
+        payload: ""
+      });
+    }
+  }
+
+  useEffect(() => {
+    if (email === "") {
+      ReactToolTip.rebuild();
+    }
+  }, [email]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Container>
+        <Menu>
+          {email === "" && <MenuItem icon="" link="/login" title="Login" />}
+          {email !== "" &&
+            <div className="logout" data-tip="Logout" data-for="tip-right" onClick={handleLogOut}>
+              <LogoutIcon />
+            </div>
+          }
+
+          <MenuItem icon="/assets/store.png" link="/" title="Home" />
+          <MenuItem icon="/assets/order.png" link="/orders" title="Orders" />
+          <MenuItem icon="/assets/profile.png" link="/profile" title="Profile" />
+        </Menu>
+        <PageBody>
+          <Routes>
+            <Route path="/login"
+              element={
+                <RequireNoAuth redirectTo="/">
+                  <Login />
+                </RequireNoAuth>
+              }
+            />
+
+            <Route path="/signup"
+              element={
+                <RequireNoAuth redirectTo="/">
+                  <SignUp />
+                </RequireNoAuth>
+              }
+            />
+
+            <Route path="/" element={<HomeScreen />} />
+
+            <Route path="/orders"
+              element={
+                <RequireAuth redirectTo="/login">
+                  <Orders />
+                </RequireAuth>
+              }
+            />
+
+            <Route path="/profile"
+              element={
+                <RequireAuth redirectTo="/login">
+                  <Profile />
+                </RequireAuth>
+              }
+            />
+          </Routes>
+        </PageBody>
+        <Cart />
+        <ReactToolTip id="tip-top" place="top" effect="solid" />
+        <ReactToolTip id="tip-right" place="right" effect="solid" />
+      </Container>
+    </Router>
   );
 }
 

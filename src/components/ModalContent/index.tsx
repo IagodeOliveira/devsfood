@@ -6,24 +6,12 @@ import {
   Quantity,
   ButtonsArea,
 } from "./styled";
-import AddIcon from "@material-ui/icons/Add";
-import RemoveIcon from "@material-ui/icons/Remove";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { User } from "../../reducer";
 
-type Products = {
-  id?: number;
-  name?: string;
-  image?: string;
-  ingredients?: string;
-  price?: number;
-};
-
-export type Props = {
-  data: Products;
-  setModal: (e: boolean) => void;
-};
+import { Props } from './types';
 
 const ModalContent = ({ data, setModal }: Props) => {
   const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import { Container, InfoArea, ButtonArea } from "./styled";
-import { Props } from "./interfaces";
+import { Props } from "./types";
 
 const ProductItem = ({ data, modal, modalData }: Props) => {
   const handleClick = () => {

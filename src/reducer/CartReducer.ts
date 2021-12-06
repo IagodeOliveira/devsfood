@@ -1,4 +1,6 @@
-const initialState: State = {
+import { CartAction } from './types';
+
+const initialState: Cart = {
   products: [],
   address: [],
   discount: 0,
@@ -6,47 +8,11 @@ const initialState: State = {
   status: 'off'
 };
 
-type State = {
-  products: Products[];
-  address: Address[];
-  discount: number;
-  delivery: number;
-  status: string;
-};
-
-type Products = {
-  id: number;
-  name: string;
-  image: string;
-  ingredients: string;
-  price: number;
-  amount: number;
-};
-
-type Address = {
-  name: string;
-  city: string;
-  phone: string;
-  state: string;
-  address: string;
-};
-
-type Cart1 = {
-  data?: Products;
-  amount?: number;
-  address?: Address;
-  status?: string;
-};
-
-export interface AddUserToken {
-  type: string;
-  payload: Cart1;
-};
-
-const CartReducer = (state = initialState, action: AddUserToken) => {
+const CartReducer = (state = initialState, action: CartAction) => {
   let products = [...state.products];
   let address: Address[];
   let status: string;
+
   switch (action.type) {
     case "Set_Cart":
       if(!action.payload.data || !action.payload.amount) {return}
@@ -72,11 +38,15 @@ const CartReducer = (state = initialState, action: AddUserToken) => {
       }
       return { ...state, products };
 
-    case "Ongoing":
-      if(!action.payload.address || !action.payload.status) {return}
+    case "Set_Address":
+      if(!action.payload.address) {return}
       address = [action.payload.address];
+      return { ...state, address };
+
+    case "Ongoing":
+      if(!action.payload.status) {return}
       status = action.payload.status;
-      return { ...state, address, status };
+      return { ...state, status };
 
     case 'Order_Delivered':
       if(!action.payload.status) {return}
@@ -84,16 +54,22 @@ const CartReducer = (state = initialState, action: AddUserToken) => {
       status = action.payload.status;
       return { ...state, products, status };
 
+    case 'Order_Canceled':
+      if(!action.payload.status) {return}
+      status = action.payload.status;
+      return { ...state, status };
+
     case "Reset":
       products = [];
       address = [];
+      status = 'off';
       let discount = 0;
-      let delivery = 0
-      return { products, address, discount, delivery };
-    
-  }
+      let delivery = 0;
+      return { products, address, status, discount, delivery };
 
-  return state;
+    default: 
+      return state;
+  }
 };
 
 export default CartReducer;

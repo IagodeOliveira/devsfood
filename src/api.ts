@@ -22,15 +22,6 @@ type Obj = {
   phone: string;
 }
 
-type Products = {
-  id: number;
-  name: string;
-  image: string;
-  ingredients: string;
-  price: number;
-  amount: number;
-};
-
 type Order = {
   date: string;
   products: string;
@@ -39,7 +30,6 @@ type Order = {
 
 const api = {
   getCategories: async () => {
-    // const res = await fetch(`${baseline}/categories`);
     try {
       const { data: json } = await apiAxios.get(`/categories`);
       return json;
@@ -50,20 +40,17 @@ const api = {
 
   getProducts: async (category: number, page: number, search: string) => {
     let fields = {} as Fields;
-    if(category !== 0) {
+    if (category !== 0) {
       fields.category = category.toString();
     }
-    if(page > 0) {
+    if (page > 0) {
       fields.page = page.toString();
     }
-    if(search !== '') {
+    if (search !== '') {
       fields.search = search;
     }
     let queryStrings = new URLSearchParams(fields).toString();
 
-    // const res = await fetch(`${baseline}/products?${queryStrings}`);
-    // const res = await fetch(`/products?${queryStrings}`);
-    // const json = await res.json();
     try {
       const { data: json } = await apiAxios.get(`/products?${queryStrings}`);
       return json;
@@ -77,26 +64,38 @@ const api = {
       const { data: msg, status } = await apiAxios.post('/auth/signup', {
         obj
       });
-      console.log(status);
-      return {status, msg};
+      return { status, msg };
     } catch (error) {
-      console.log(error);
-      return {status: 400, msg: "Email already registered"};
+      return { status: 400, msg: "Email already registered" };
     }
   },
 
   login: async (email: string, password: string) => {
     try {
-      const {data, status, headers} = await apiAxios.post('/auth/login', {
+      const { data, status, headers } = await apiAxios.post('/auth/login', {
         email, password
       });
-      if(status === 201) {
+      if (status === 201) {
         localStorage.setItem("authToken", headers.authorizationtoken);
       }
-      return {email: data, status: 201, msg: "User logged in"};
+      return { email: data, status: 201, msg: "User logged in" };
     } catch (error) {
-      console.log(error);
-      return {status: 400, msg: "Username or Password incorrect"};
+      return { status: 400, msg: "Username or Password incorrect" };
+    }
+  },
+
+  newProfile: async (obj: Obj, token: string, email: string) => {
+    try {
+      const { data: json, status } = await apiAxios.post('/auth/newProfile', { obj, email },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'authtoken': token
+          }
+        });
+      return { status, json };
+    } catch (error: any) {
+      return { status: error.response.status, json: "" };
     }
   },
 
@@ -107,8 +106,7 @@ const api = {
       });
       return data;
     } catch (error) {
-      console.log(error);
-      return {status: 400};
+      return { status: 400 };
     }
   },
 
@@ -119,22 +117,25 @@ const api = {
       });
       return status;
     } catch (error) {
-      console.log(error);
-      return {status: 400};
+      return { status: 400 };
     }
   },
 
-  getOrders: async () => {
+  getOrders: async (email: string, token: string) => {
     try {
-      const { data, status } = await apiAxios.get('/orders');
-      for(let i in data.result) {
+      const { data, status } = await apiAxios.post('/orders', { email }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'authtoken': token
+        }
+      });
+      for (let i in data.result) {
         data.result[i].date = data.result[i].date.split(" ");
         data.result[i].products = JSON.parse(data.result[i].products);
       }
-      return {data, status};
-    } catch (error) {
-      console.log(error);
-      return {status: 400};
+      return { data, status };
+    } catch (error: any) {
+      return { data: "", status: error.response.status };
     }
   },
 }

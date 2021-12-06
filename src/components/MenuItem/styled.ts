@@ -1,10 +1,7 @@
 import styled from 'styled-components';
+import { Active } from './types';
 
-type Active = {
-  bg: boolean;
-}
-
-export const LinkArea = styled.a<Active>`
+export const LinkArea = styled.div<Active>`
   width: 60px;
   height: 60px;
   border-radius: 10px;
@@ -13,6 +10,7 @@ export const LinkArea = styled.a<Active>`
   justify-content: center;
   align-items: center;
   margin-bottom: 10px;
+  cursor: pointer;
 
   .loginIcon {
     color: #FFF;

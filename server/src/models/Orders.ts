@@ -1,18 +1,14 @@
-import { Model, DataTypes } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import { sequelize } from '../instances';
-
-export interface OrdersInstance extends Model{
-  id: number;
-  date: string;
-  products: string;
-  total: number;
-}
 
 export const Orders = sequelize.define<OrdersInstance>('Orders', {
   id: {
     primaryKey: true,
     autoIncrement: true,
     type: DataTypes.INTEGER
+  },
+  email: {
+    type: DataTypes.STRING
   },
   date: {
     type: DataTypes.STRING

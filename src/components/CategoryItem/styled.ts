@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-
-type Active = {
-  active: boolean;
-}
+import { Active } from './types';
 
 export const Container = styled.div<Active>`
   width: 80px;

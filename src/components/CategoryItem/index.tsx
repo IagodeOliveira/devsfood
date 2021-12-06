@@ -1,11 +1,17 @@
 import { Container } from "./styled";
-import { Props } from "./interfaces";
+import { Props } from "./types";
 
-const CategoryItem = ({ data, active, newActive }: Props) => {
+const CategoryItem = ({ data, active, newActive, pageActive, pActive }: Props) => {
+  const handleClick = () => {
+    if (pActive > 1) {
+      pageActive(1);
+    }
+    newActive(data.id);
+  }
   return (
     <Container
       active={data.id === active ? true : false}
-      onClick={() => newActive(data.id)}
+      onClick={handleClick}
       data-tip={data.name}
       data-for="tip-top"
     >

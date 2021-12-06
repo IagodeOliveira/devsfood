@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-
-type Input = {
-  active: boolean;
-}
+import { Input } from './types';
 
 export const Container = styled.div<Input>`
   background-color: #136713;

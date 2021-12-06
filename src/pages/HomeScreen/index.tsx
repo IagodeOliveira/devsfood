@@ -1,4 +1,3 @@
-// import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import ReactToolTip from "react-tooltip";
 import {
@@ -21,7 +20,6 @@ import api from "../../api";
 let searchTimer: ReturnType<typeof setTimeout>;
 
 const HomeScreen = () => {
-  // const navigate = useNavigate();
   const [search, setSearch] = useState("");
   const [searchedItem, setSearchedItem] = useState("");
   const [categories, setCategories] = useState([]);
@@ -88,6 +86,8 @@ const HomeScreen = () => {
               }}
               active={activeCategory}
               newActive={setActiveCategory}
+              pageActive={setActivePage}
+              pActive={activePage}
             />
             {categories.map((item, index) => (
               <CategoryItem
@@ -95,6 +95,8 @@ const HomeScreen = () => {
                 data={item}
                 active={activeCategory}
                 newActive={setActiveCategory}
+                pageActive={setActivePage}
+                pActive={activePage}
               />
             ))}
           </CategoryList>

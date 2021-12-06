@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-
-type Modal = {
-  modal: boolean;
-}
+import { Modal } from './types';
 
 export const Container = styled.div<Modal>`
   display: ${props => props.modal ? 'flex' : 'none'};
