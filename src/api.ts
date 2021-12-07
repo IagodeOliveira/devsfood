@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiAxios = axios.create({
-  baseURL: ''
+  baseURL: 'https://relaxed-bhabha-ab02a8.netlify.app'
 });
 
 type Fields = {
