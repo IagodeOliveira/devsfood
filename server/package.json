@@ -35,8 +35,8 @@
   "scripts": {
     "start-dev": "nodemon -e ts,json src/server.ts",
     "tsc": "tsc",
-    "start": "node dist/server.js && (cd .. && npm start)",
-    "postinstall": "npm start"
+    "start": "node dist/server.js",
+    "postinstall": "npm run tsc"
   },
   "keywords": [],
   "author": "Iago Dimitrius de Oliveira Marques",
