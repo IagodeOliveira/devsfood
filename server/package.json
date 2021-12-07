@@ -2,16 +2,6 @@
   "name": "devsfood_back",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start-dev": "nodemon -e ts,json src/server.ts",
-    "tsc": "tsc",
-    "start": "node dist/server.js",
-    "postinstall": "npm run tsc"
-  },
-  "keywords": [],
-  "author": "Iago Dimitrius de Oliveira Marques",
-  "license": "ISC",
   "description": "",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -29,9 +19,7 @@
     "@types/jsonwebtoken": "^8.5.6",
     "@types/node": "^16.11.10",
     "@types/sequelize": "^4.28.10",
-    "@types/validator": "^13.7.0",
-    "nodemon": "^2.0.15",
-    "ts-node": "^10.4.0"
+    "@types/validator": "^13.7.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -42,5 +30,14 @@
     "@types/validator": "^13.7.0",
     "nodemon": "^2.0.15",
     "ts-node": "^10.4.0"
-  }
+  },
+  "scripts": {
+    "start-dev": "nodemon -e ts,json src/server.ts",
+    "tsc": "tsc",
+    "start": "node dist/server.js",
+    "postinstall": "npm run tsc"
+  },
+  "keywords": [],
+  "author": "Iago Dimitrius de Oliveira Marques",
+  "license": "ISC"
 }
