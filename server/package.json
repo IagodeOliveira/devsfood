@@ -35,7 +35,7 @@
   "scripts": {
     "start-dev": "nodemon -e ts,json src/server.ts",
     "tsc": "tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/server.js && (cd .. && npm start)",
     "postinstall": "npm start"
   },
   "keywords": [],
