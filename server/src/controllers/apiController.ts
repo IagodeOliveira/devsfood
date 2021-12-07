@@ -342,8 +342,8 @@ export const stripePayment = async (req: Request, res: Response) => {
           }
         }),
         mode: 'payment',
-        success_url: `/success`,
-        cancel_url: `/cancel`,
+        success_url: `https://devsfood.herokuapp.com/success`,
+        cancel_url: `https://devsfood.herokuapp.com/cancel`,
       });
       res.json(session.url);
     } catch(e: any) {
