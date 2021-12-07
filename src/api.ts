@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-// let baseline = 'https://api.b7web.com.br/devsfood/api';
-
 const apiAxios = axios.create({
   baseURL: ''
 });
