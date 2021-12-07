@@ -41,6 +41,10 @@ const HomeScreen = () => {
     };
 
     getCategories();
+
+    return () => {
+
+    }
   }, []);
 
   useEffect(() => {
@@ -61,7 +65,11 @@ const HomeScreen = () => {
     getProducts();
     setTimeout(() => {
       setLoading(false);
-    }, 300);
+    }, 900);
+
+    return () => {
+      
+    }
   }, [activeCategory, activePage, searchedItem]);
 
   useEffect(() => {

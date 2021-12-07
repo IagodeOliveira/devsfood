@@ -83,7 +83,7 @@ export const ProductArea = styled.div`
   display: flex;
   flex-direction: column;
   width: 310px;
-  height: 225px;
+  height: 180px;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -197,23 +197,28 @@ export const TotalItem = styled.div`
 `;
 
 export const DoneOrders = styled.div<BarHandle>`
+  flex: 1;
   display: flex;
   flex-direction: column;
-  height: ${props => props.data.status === 'on' ? '230px' : '100%'};
+  height: ${props => props.data.status === 'on' ? 'auto' : '100%'};
   margin: 20px 0;
   color: #136713;
   overflow-y: auto;
+  background-color: #000;
+  padding-left: 20px;
+  padding-bottom: 25px;
+  border-radius: 10px;
 
   ::-webkit-scrollbar {
     width: 12px;
   }
 
   ::-webkit-scrollbar-track {
-    background-color: #333;
+    background-color: #FFF;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #136713;
+    background: #8250DF;
   }
 
   .no_previous, .previous {
@@ -258,10 +263,7 @@ export const DeliveryItem = styled.div`
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #136713;
-    border-right: 3px solid rgba(0, 0, 0, 0);
-    border-left: 3px solid rgba(0, 0, 0, 0);
-    background-clip: padding-box;
+    background: #8250DF;
   }
 `;
 

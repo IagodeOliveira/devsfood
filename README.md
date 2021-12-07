@@ -1,46 +1,54 @@
-# Getting Started with Create React App
+# DevsFood
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of contents
 
-## Available Scripts
+- [Overview](#overview)
+  - [Users should be able to](#users-should-be-able-to)
+  - [Screenshots](#screenshots)
+  - [Built with](#built-with)
+- [Author](#author)
+- [Acknowledgments](#acknowledgments)
+- [Future customizations](#future-customizations)
 
-In the project directory, you can run:
+## Overview
 
-### `npm start`
+### Users should be able to:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- Add products to the cart
+- Remove products from the cart
+- Log in and Log out
+- Simulate payment using fake credit card as long they're logged in
+- Simulate the dispatch and deliver of their orders
+- Cancel payment/order
+- See current and previous orders
+- Edit your personal data
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Screenshots
 
-### `npm test`
+![](./public/assets/LogInPage.jpg)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+![](./public/assets/ChatDefault.jpg)
 
-### `npm run build`
+![](./public/assets/chatWindow.jpg)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Built with
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+DevsFood is a online bakery made basically using React, Redux, TypeScript, Node.js, Express, Sequelize, PostgreSQL and Stripe. Also JsonWebToken, BCrypt and Styled-Components were used.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Heroku
 
-### `npm run eject`
+- [Whatsapp Clone Page at Heroku](https://young-oasis-68738.herokuapp.com/)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Author
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Website - [Iago D. de Oliveira Marques](https://github.com/IagodeOliveira/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Acknowledgments
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+This project was inspired on a course video at https://b7web.com.br.
 
-## Learn More
+## Future customizations
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### In the near future I intend to add the following customizations:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Make it responsive

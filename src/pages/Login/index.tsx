@@ -20,6 +20,7 @@ const Login = () => {
     e.preventDefault();
     const res = await api.login(email, password);
     if(res && res.status === 201) {
+      reset();
       dispatch({
         type: 'Set_Token',
         payload: res.email
@@ -31,13 +32,15 @@ const Login = () => {
           address
         }
       });
-      reset();
       navigate("/");
     }
     if(res && res.status === 400) {
       alert(res.msg);
     }
-    return;
+
+    return () => {
+
+    };
   };
 
 

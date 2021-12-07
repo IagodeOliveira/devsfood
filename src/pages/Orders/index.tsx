@@ -83,7 +83,7 @@ const Orders = () => {
       }
     };
     getDelivers();
-  }, [status, email, token]);
+  }, [status, email, token, dispatch, navigate]);
 
   const handleSend = () => {
     if(!delivered) {
@@ -120,6 +120,7 @@ const Orders = () => {
         }
       });
       navigate("/");
+      alert('Order canceled');
     } else {
       alert('Order already sent');
     }

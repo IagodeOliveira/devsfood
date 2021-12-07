@@ -138,6 +138,20 @@ const api = {
       return { data: "", status: error.response.status };
     }
   },
+
+  payment: async (token: string, products: Products[]) => {
+    try {
+      const { data: url, status } = await apiAxios.post('/payments', { products }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'authtoken': token
+        }
+      });
+      return { url, status };
+    } catch (error) {
+      console.error(error);
+    }
+  },
 }
 
 export default api;

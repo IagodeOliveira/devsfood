@@ -80,10 +80,11 @@ export const ProductInfo = styled.div`
   display: flex;
   flex-direction: column;
   margin-left: 10px;
+  padding-right: 10px;
 
   > * {
     &:first-child {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: bold;
     }
 

@@ -1,13 +1,16 @@
 {
-  "name": "server",
+  "name": "devsfood_back",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start-dev": "nodemon -e ts,json src/server.ts"
+    "start-dev": "nodemon -e ts,json src/server.ts",
+    "tsc": "tsc",
+    "start": "node dist/server.js",
+    "postinstall": "npm run tsc"
   },
   "keywords": [],
-  "author": "",
+  "author": "Iago Dimitrius de Oliveira Marques",
   "license": "ISC",
   "description": "",
   "dependencies": {
@@ -19,6 +22,7 @@
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.12.0-alpha.1",
+    "stripe": "^8.191.0",
     "validator": "^13.7.0"
   },
   "devDependencies": {

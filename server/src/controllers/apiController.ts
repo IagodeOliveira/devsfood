@@ -8,9 +8,14 @@ import { Auth } from '../models/Auth';
 import { Orders } from '../models/Orders';
 import { Op } from 'sequelize';
 import { signUpValidate, loginValidate } from './validate';
-import * as newProducts from '../products';
+import fs from 'fs';
+import Stripe from 'stripe';
 
 dotenv.config();
+
+const stripe = new Stripe((process.env.Stripe_Secret_Key as string), {
+  apiVersion: '2020-08-27',
+});
 
 export const categories = async (req: Request, res: Response) => {
   let categories = [];
@@ -28,7 +33,7 @@ export const categories = async (req: Request, res: Response) => {
     } 
     res.json({error: "An error has happened", result: []});
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -52,7 +57,7 @@ export const createCategories = async (req: Request, res: Response) => {
   //       name: categories[i].name
   //     });
   //   } catch(error) {
-  //     console.log(error);
+  //     console.error(error);
   //   }
   // }
 };
@@ -142,25 +147,30 @@ export const products = async (req: RequestQuery, res: Response) => {
     } 
     res.json({error: "An error has happened", result: []});
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
-export const createProducts = async (req: Request, res: Response) => {
-  // let products = newProducts.default;
-  // for(let i in products) {
-  //   try {
-  //     await Products.create({
-  //       id_cat: products[i].id_cat,
-  //       image: products[i].image,
-  //       ingredients: products[i].ingredients,
-  //       name: products[i].name,
-  //       price: products[i].price
-  //     });
-  //   } catch(error) {
-  //     console.log(error);
+export const createProducts = (res: Response) => {
+  // fs.readFile('products.json', async (error, data: any) => {
+  //   if (error) {
+  //     res.status(500).end();
+  //   } else {
+  //     let products = JSON.parse(data).products;
+  //     for(let i in products) {
+  //     try {
+  //       await Products.create({
+  //         id_cat: products[i].id_cat,
+  //         image: products[i].image,
+  //         ingredients: products[i].ingredients,
+  //         name: products[i].name,
+  //         price: products[i].price
+  //       });
+  //     } catch(error) {
+  //       console.error(error);
+  //     }
   //   }
-  // }
+  // }})
 };
 
 export const signUp = async (req: Request, res: Response) => {
@@ -281,7 +291,7 @@ export const login = async (req: Request, res: Response) => {
     const token = jwt.sign(
       { name: user.name, email },
       (process.env.TOKEN_SECRET as string),
-      { expiresIn: 10 }
+      { expiresIn: '1h' }
     );
 
     res.header("authorizationtoken", token);
@@ -307,9 +317,40 @@ export const address = async (req: Request, res: Response) => {
     }
     res.json(user);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
+
+export const stripePayment = async (req: Request, res: Response) => {
+  if (!req.user) {
+    return res.status(401).send("Restricted Area");
+  } else {
+    let { products } = req.body;
+    try {
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: products.map((product: any) => {
+          return {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: product.name
+              },
+              unit_amount: (+(product.price) * 100).toString()
+            },
+            quantity: (product.amount),
+          }
+        }),
+        mode: 'payment',
+        success_url: `http://localhost:3000/success`,
+        cancel_url: `http://localhost:3000/cancel`,
+      });
+      res.json(session.url);
+    } catch(e: any) {
+      res.status(500).json({ error: e.message });
+    }
+  }
+}
 
 export const newOrder = async (req: Request, res: Response) => {
   let order = req.body.order;

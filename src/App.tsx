@@ -10,6 +10,8 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Orders from './pages/Orders';
 import Profile from './pages/Profile';
+import Cancel from './pages/Cancel';
+import Success from './pages/Success';
 import MenuItem from './components/MenuItem';
 import Cart from './components/Cart';
 import RequireAuth, { RequireNoAuth } from './components/RequireAuth';
@@ -88,6 +90,9 @@ function App() {
                 </RequireAuth>
               }
             />
+
+            <Route path="/cancel" element={<Cancel />} />
+            <Route path="/success" element={<Success />} />
           </Routes>
         </PageBody>
         <Cart />

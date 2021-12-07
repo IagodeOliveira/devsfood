@@ -17,6 +17,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import api from "../../api";
 
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -82,13 +83,10 @@ const Cart = () => {
   const handlePurchase = async () => {
     if(token !== "" && token !== null) {
       if(status === 'off') {
-        dispatch({
-          type: "Ongoing",
-          payload: {
-            status: 'on'
-          }
-        });
-        navigate("/orders");
+        const res = await api.payment(token, products);
+        if(res && res.status === 200) {
+          window.location.href = res.url;
+        }
       }
     } else {
       navigate("/login");

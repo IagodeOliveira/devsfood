@@ -13,5 +13,6 @@ router.post('/auth/newProfile', auth, apiController.newProfile);
 router.post('/address', apiController.address);
 router.post('/newOrder', apiController.newOrder);
 router.post('/orders', auth, apiController.orders);
+router.post('/payments', auth, apiController.stripePayment);
 
 export default router;
