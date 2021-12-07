@@ -8,7 +8,7 @@ import { Auth } from '../models/Auth';
 import { Orders } from '../models/Orders';
 import { Op } from 'sequelize';
 import { signUpValidate, loginValidate } from './validate';
-import fs from 'fs';
+// import fs from 'fs';
 import Stripe from 'stripe';
 
 dotenv.config();
