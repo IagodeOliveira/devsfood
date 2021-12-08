@@ -22,10 +22,11 @@ export const categories = async (req: Request, res: Response) => {
   let categories = [];
   try {
     const response: any = await Categories.findAll();
+    console.log(response);
     for(let i in response) {
       categories.push(response[i].dataValues);
     }
-    if(categories.length === 3) {
+    if(categories.length > 0) {
       res.json({
         error: "",
         result: categories
