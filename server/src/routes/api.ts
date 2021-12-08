@@ -4,8 +4,8 @@ const router = Router();
 import auth from '../controllers/auth';
 
 router.get('/categories', apiController.categories);
-// router.get('/products', apiController.products);
-router.get('/cat', apiController.createCategories);
+router.get('/products', apiController.products);
+// router.get('/cat', apiController.createCategories);
 // router.get('/prod', apiController.createProducts);
 // router.post('/auth/signup', apiController.signUp);
 // router.post('/auth/login', apiController.login);
