@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-const apiAxios = axios.create({
-  baseURL: ''
-});
+// const apiAxios = axios.create({
+//   baseURL: ''
+// });
 
 type Fields = {
   category?: string;
@@ -29,7 +29,7 @@ type Order = {
 const api = {
   getCategories: async () => {
     try {
-      const { data: json } = await apiAxios.get(`/categories`);
+      const { data: json } = await axios.get(`/categories`);
       return json;
     } catch (error) {
       console.log(error);
@@ -50,7 +50,7 @@ const api = {
     let queryStrings = new URLSearchParams(fields).toString();
 
     try {
-      const { data: json } = await apiAxios.get(`/products?${queryStrings}`);
+      const { data: json } = await axios.get(`/products?${queryStrings}`);
       return json;
     } catch (error) {
       console.log(error);
@@ -59,7 +59,7 @@ const api = {
 
   signUp: async (obj: Obj) => {
     try {
-      const { data: msg, status } = await apiAxios.post('/auth/signup', {
+      const { data: msg, status } = await axios.post('/auth/signup', {
         obj
       });
       return { status, msg };
@@ -70,7 +70,7 @@ const api = {
 
   login: async (email: string, password: string) => {
     try {
-      const { data, status, headers } = await apiAxios.post('/auth/login', {
+      const { data, status, headers } = await axios.post('/auth/login', {
         email, password
       });
       if (status === 201) {
@@ -84,7 +84,7 @@ const api = {
 
   newProfile: async (obj: Obj, token: string, email: string) => {
     try {
-      const { data: json, status } = await apiAxios.post('/auth/newProfile', { obj, email },
+      const { data: json, status } = await axios.post('/auth/newProfile', { obj, email },
         {
           headers: {
             'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ const api = {
 
   address: async (email: string) => {
     try {
-      const { data } = await apiAxios.post('/address', {
+      const { data } = await axios.post('/address', {
         email
       });
       return data;
@@ -110,7 +110,7 @@ const api = {
 
   newOrder: async (order: Order) => {
     try {
-      const { status } = await apiAxios.post('/newOrder', {
+      const { status } = await axios.post('/newOrder', {
         order
       });
       return status;
@@ -121,7 +121,7 @@ const api = {
 
   getOrders: async (email: string, token: string) => {
     try {
-      const { data, status } = await apiAxios.post('/orders', { email }, {
+      const { data, status } = await axios.post('/orders', { email }, {
         headers: {
           'Content-Type': 'application/json',
           'authtoken': token
@@ -139,7 +139,7 @@ const api = {
 
   payment: async (token: string, products: Products[]) => {
     try {
-      const { data: url, status } = await apiAxios.post('/payments', { products }, {
+      const { data: url, status } = await axios.post('/payments', { products }, {
         headers: {
           'Content-Type': 'application/json',
           'authtoken': token
