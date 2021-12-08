@@ -121,7 +121,7 @@ const SignUp = () => {
           <input
             type="text"
             placeholder="street x, 000"
-            pattern="([a-zA-Z]{2,})\s([a-zA-Z]{2,})-(\s)?\d{1, 4}"
+            pattern="([a-zA-Z]{2,})\s([a-zA-Z]{2,}),(\s)?\d{1,4}"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             required

@@ -64,7 +64,7 @@ const api = {
       });
       return { status, msg };
     } catch (error) {
-      return { status: 400, msg: "Email already registered" };
+      return { status: 400, msg: "Sign Up failed. Try again" };
     }
   },
 

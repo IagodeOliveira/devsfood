@@ -27,7 +27,7 @@
 
     {
       "id_cat": 2,
-      "image": "/assets/cat/chocolate-donut.png",
+      "image": "/assets/prod/chocolate-donut.png",
       "ingredients": "chocolate icing, chocolate sprinkles, wheat flour, starch, whey, egg, sugar, salt",
       "name": "Chocolate Frosted Donut",
       "price": 10
@@ -35,7 +35,7 @@
 
     {
       "id_cat": 2,
-      "image": "/assets/cat/double-donut.png",
+      "image": "/assets/prod/double-donut.png",
       "ingredients": "chocolate icing, wheat flour, starch, whey, egg white, sugar, salt",
       "name": "Double Chocolate Donut",
       "price": 18
@@ -43,7 +43,7 @@
 
     {
       "id_cat": 2,
-      "image": "/assets/cat/strawberry-donut.png",
+      "image": "/assets/prod/strawberry-donut.png",
       "ingredients": "strawberry icing, wheat flour, nonfat dry milk, sugar, cornstarch, salt, ",
       "name": "Strawberry Sprinkles Donut",
       "price": 12

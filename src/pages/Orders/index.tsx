@@ -32,7 +32,7 @@ const Orders = () => {
   const dispatch = useDispatch();
   const { email, token } = useSelector((state: User) => state.user);
   const { products, address, status } = useSelector((state: User) => state.cart);
-
+  console.log(products);
   let obj = address[0];
 
   let data = {

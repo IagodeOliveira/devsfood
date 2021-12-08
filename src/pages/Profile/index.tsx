@@ -151,7 +151,7 @@ const Profile = () => {
           </label>
           <input
             type="text"
-            pattern="([a-zA-Z]{2,})\s([a-zA-Z]{2,})-(\s)?\d{1, 4}"
+            pattern="([a-zA-Z]{2,})\s([a-zA-Z]{2,}),(\s)?\d{1,4}"
             value={newAddress}
             onChange={(e) => setNewAddress(e.target.value)}
             required
