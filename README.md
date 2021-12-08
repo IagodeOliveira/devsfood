@@ -16,6 +16,7 @@
 
 - Add products to the cart
 - Remove products from the cart
+- Filter products using input
 - Log in and Log out
 - Simulate payment using fake credit card as long they're logged in
 - Simulate the dispatch and deliver of their orders
@@ -25,11 +26,17 @@
 
 ### Screenshots
 
-![](./public/assets/LogInPage.jpg)
+![](./public/assets/readImages/home.png)
 
-![](./public/assets/ChatDefault.jpg)
+![](./public/assets/readImages/cart.png)
 
-![](./public/assets/chatWindow.jpg)
+![](./public/assets/readImages/login.png)
+
+![](./public/assets/readImages/paymentPage.png)
+
+![](./public/assets/readImages/orderPage.png)
+
+![](./public/assets/readImages/profilePage.png)
 
 ## Built with
 
@@ -37,7 +44,7 @@ DevsFood is a online bakery made basically using React, Redux, TypeScript, Node.
 
 ## Heroku
 
-- [Whatsapp Clone Page at Heroku](https://young-oasis-68738.herokuapp.com/)
+- [Whatsapp Clone Page at Heroku](https://devsfood.herokuapp.com/)
 
 ## Author
 
@@ -45,7 +52,7 @@ DevsFood is a online bakery made basically using React, Redux, TypeScript, Node.
 
 ## Acknowledgments
 
-This project was inspired on a course video at https://b7web.com.br.
+This project was inspired on a course project at https://b7web.com.br.
 
 ## Future customizations
 

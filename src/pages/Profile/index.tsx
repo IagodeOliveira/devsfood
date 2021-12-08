@@ -142,6 +142,7 @@ const Profile = () => {
             type="text"
             value={city}
             onChange={(e) => setCity(e.target.value)}
+            minLength={3}
             required
           />
         </LabelInp>

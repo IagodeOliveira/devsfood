@@ -332,7 +332,7 @@ export const stripePayment = async (req: Request, res: Response) => {
         line_items: products.map((product: any) => {
           return {
             price_data: {
-              currency: 'usd',
+              currency: 'brl',
               product_data: {
                 name: product.name
               },
