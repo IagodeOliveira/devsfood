@@ -16,6 +16,12 @@ export const sequelize = new Sequelize(
   "postgres://qsqhpheyxyrnrr:cc5f2a6dfb70a4f948e0efea216efd0f05a0f4352a256fdbd2a28ce8c50d458d@ec2-35-171-90-188.compute-1.amazonaws.com:5432/dan6jonjkdn2mu",
   {
     dialect: 'postgres',
-    port: +(process.env.PG_PORT as string)
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    },
+    port: +(process.env.PG_PORT as string),
   }
 );
