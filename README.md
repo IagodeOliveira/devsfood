@@ -44,7 +44,7 @@ DevsFood is a online bakery made basically using React, Redux, TypeScript, Node.
 
 ## Heroku
 
-- [Whatsapp Clone Page at Heroku](https://devsfood.herokuapp.com/)
+- [DevsFood Page at Heroku](https://devsfood.herokuapp.com/)
 
 ## Author
 
