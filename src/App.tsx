@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ReactToolTip from 'react-tooltip';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -21,21 +21,21 @@ function App() {
   const { email } = useSelector((state: User) => state.user);
 
   const handleLogOut = () => {
-    localStorage.setItem('authToken', "");
-    if (email !== "") {
+    localStorage.setItem('authToken', '');
+    if (email !== '') {
       dispatch({
-        type: "Reset",
-        payload: {}
+        type: 'Reset',
+        payload: {},
       });
       dispatch({
-        type: "Set_Token",
-        payload: ""
+        type: 'Set_Token',
+        payload: '',
       });
     }
-  }
+  };
 
   useEffect(() => {
-    if (email === "") {
+    if (email === '') {
       ReactToolTip.rebuild();
     }
   }, [email]);
@@ -44,20 +44,30 @@ function App() {
     <Router>
       <Container>
         <Menu>
-          {email === "" && <MenuItem icon="" link="/login" title="Login" />}
-          {email !== "" &&
-            <div className="logout" data-tip="Logout" data-for="tip-right" onClick={handleLogOut}>
+          {email === '' && <MenuItem icon="" link="/login" title="Login" />}
+          {email !== '' && (
+            <div
+              className="logout"
+              data-tip="Logout"
+              data-for="tip-right"
+              onClick={handleLogOut}
+            >
               <LogoutIcon />
             </div>
-          }
+          )}
 
           <MenuItem icon="/assets/store.png" link="/" title="Home" />
           <MenuItem icon="/assets/order.png" link="/orders" title="Orders" />
-          <MenuItem icon="/assets/profile.png" link="/profile" title="Profile" />
+          <MenuItem
+            icon="/assets/profile.png"
+            link="/profile"
+            title="Profile"
+          />
         </Menu>
         <PageBody>
           <Routes>
-            <Route path="/login"
+            <Route
+              path="/login"
               element={
                 <RequireNoAuth redirectTo="/">
                   <Login />
@@ -65,7 +75,8 @@ function App() {
               }
             />
 
-            <Route path="/signup"
+            <Route
+              path="/signup"
               element={
                 <RequireNoAuth redirectTo="/">
                   <SignUp />
@@ -75,7 +86,8 @@ function App() {
 
             <Route path="/" element={<HomeScreen />} />
 
-            <Route path="/orders"
+            <Route
+              path="/orders"
               element={
                 <RequireAuth redirectTo="/login">
                   <Orders />
@@ -83,7 +95,8 @@ function App() {
               }
             />
 
-            <Route path="/profile"
+            <Route
+              path="/profile"
               element={
                 <RequireAuth redirectTo="/login">
                   <Profile />

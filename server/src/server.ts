@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import path from "path";
 import dotenv from 'dotenv';
 import apiRoutes from './routes/api';
+import cors from 'cors';
 
 dotenv.config();
 const app = express();
@@ -10,11 +11,11 @@ const PORT = process.env.PORT || 5000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/', apiRoutes);
-app.use(express.static(path.join(__dirname, "../../build")));
+// app.use(express.static(path.join(__dirname, "../../build")));
 
-app.get("*", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "../../build/index.html"));
-});
+// app.get("*", (req: Request, res: Response) => {
+//   res.sendFile(path.join(__dirname, "../../build/index.html"));
+// });
 
 app.use((req: Request, res: Response) => {
   res.status(404);

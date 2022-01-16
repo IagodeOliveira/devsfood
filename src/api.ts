@@ -8,7 +8,7 @@ type Fields = {
   category?: string;
   page?: string;
   search?: string;
-}
+};
 
 type Obj = {
   name: string;
@@ -18,13 +18,13 @@ type Obj = {
   city: string;
   address: string;
   phone: string;
-}
+};
 
 type Order = {
   date: string;
   products: string;
   total: number;
-}
+};
 
 const api = {
   getCategories: async () => {
@@ -60,47 +60,51 @@ const api = {
   signUp: async (obj: Obj) => {
     try {
       const { data: msg, status } = await axios.post('/auth/signup', {
-        obj
+        obj,
       });
       return { status, msg };
     } catch (error) {
-      return { status: 400, msg: "Sign Up failed. Try again" };
+      return { status: 400, msg: 'Sign Up failed. Try again' };
     }
   },
 
   login: async (email: string, password: string) => {
     try {
       const { data, status, headers } = await axios.post('/auth/login', {
-        email, password
+        email,
+        password,
       });
       if (status === 201) {
-        localStorage.setItem("authToken", headers.authorizationtoken);
+        localStorage.setItem('authToken', headers.authorizationtoken);
       }
-      return { email: data, status: 201, msg: "User logged in" };
+      return { email: data, status: 201, msg: 'User logged in' };
     } catch (error) {
-      return { status: 400, msg: "Username or Password incorrect" };
+      return { status: 400, msg: 'Username or Password incorrect' };
     }
   },
 
   newProfile: async (obj: Obj, token: string, email: string) => {
     try {
-      const { data: json, status } = await axios.post('/auth/newProfile', { obj, email },
+      const { data: json, status } = await axios.post(
+        '/auth/newProfile',
+        { obj, email },
         {
           headers: {
             'Content-Type': 'application/json',
-            'authtoken': token
-          }
-        });
+            authtoken: token,
+          },
+        }
+      );
       return { status, json };
     } catch (error: any) {
-      return { status: error.response.status, json: "" };
+      return { status: error.response.status, json: '' };
     }
   },
 
   address: async (email: string) => {
     try {
       const { data } = await axios.post('/address', {
-        email
+        email,
       });
       return data;
     } catch (error) {
@@ -111,7 +115,7 @@ const api = {
   newOrder: async (order: Order) => {
     try {
       const { status } = await axios.post('/newOrder', {
-        order
+        order,
       });
       return status;
     } catch (error) {
@@ -121,35 +125,43 @@ const api = {
 
   getOrders: async (email: string, token: string) => {
     try {
-      const { data, status } = await axios.post('/orders', { email }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'authtoken': token
+      const { data, status } = await axios.post(
+        '/orders',
+        { email },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authtoken: token,
+          },
         }
-      });
+      );
       for (let i in data.result) {
-        data.result[i].date = data.result[i].date.split(" ");
+        data.result[i].date = data.result[i].date.split(' ');
         data.result[i].products = JSON.parse(data.result[i].products);
       }
       return { data, status };
     } catch (error: any) {
-      return { data: "", status: error.response.status };
+      return { data: '', status: error.response.status };
     }
   },
 
   payment: async (token: string, products: Products[]) => {
     try {
-      const { data: url, status } = await axios.post('/payments', { products }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'authtoken': token
+      const { data: url, status } = await axios.post(
+        '/payments',
+        { products },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            authtoken: token,
+          },
         }
-      });
+      );
       return { url, status };
     } catch (error) {
       console.error(error);
     }
   },
-}
+};
 
 export default api;

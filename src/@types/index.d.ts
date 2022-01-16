@@ -8,7 +8,7 @@ type Products = {
   amount: number;
 };
 
-declare global{
+declare global {
   type Products = {
     id: number;
     id_cat?: number;
@@ -17,8 +17,8 @@ declare global{
     ingredients: string;
     price: string;
     amount?: number;
-  }
-};
+  };
+}
 
 type Delivers = {
   date: string[];
@@ -26,13 +26,13 @@ type Delivers = {
   total: string;
 };
 
-declare global{
+declare global {
   type Delivers = {
     date: string[];
     products: Products[];
     total: string;
-  }
-};
+  };
+}
 
 type Cart = {
   products: Products[];
@@ -50,7 +50,7 @@ declare global {
     delivery: number;
     status: string;
   };
-};
+}
 
 type Token = {
   token: string;
@@ -63,7 +63,7 @@ type Address = {
   phone: string;
   state: string;
   address: string;
-}
+};
 
 declare global {
   type Address = {
@@ -72,8 +72,8 @@ declare global {
     phone: string;
     state: string;
     address: string;
-  }
-};
+  };
+}
 
 type User = {
   user: Token;
@@ -85,4 +85,4 @@ declare global {
     user: Token;
     cart: Cart;
   };
-};
+}

@@ -3,11 +3,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const sequelize = new Sequelize(
-  process.env.PG_DB as string,
-  process.env.PG_USER as string,
-  process.env.PG_PASSWORD as string,
+  process.env.POSTGRES_DB as string,
+  process.env.POSTGRES_USER as string,
+  process.env.POSTGRES_PASSWORD as string,
   {
-    host: process.env.PG_Host as string,
+    host: process.env.POSTGRES_Host as string,
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
@@ -15,6 +15,6 @@ export const sequelize = new Sequelize(
         rejectUnauthorized: false
       }
     },
-    port: +(process.env.PG_PORT as string)
+    port: +(process.env.POSTGRES_PORT as string)
   }
 );

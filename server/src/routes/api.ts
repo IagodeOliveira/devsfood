@@ -1,7 +1,7 @@
-import { Router } from "express";
+import { Router } from 'express';
 import * as apiController from '../controllers/apiController';
-const router = Router();
 import auth from '../controllers/auth';
+const router = Router();
 
 router.get('/categories', apiController.categories);
 router.get('/products', apiController.products);
