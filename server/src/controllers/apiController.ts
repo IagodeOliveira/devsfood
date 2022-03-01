@@ -1,7 +1,7 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import { Categories } from '../models/Categories';
 import { Products } from '../models/Products';
 import { Auth } from '../models/Auth';
@@ -13,7 +13,7 @@ import Stripe from 'stripe';
 
 dotenv.config();
 
-const stripe = new Stripe((process.env.Stripe_Secret_Key as string), {
+const stripe = new Stripe(process.env.Stripe_Secret_Key as string, {
   apiVersion: '2020-08-27',
 });
 
@@ -21,17 +21,17 @@ export const categories = async (req: Request, res: Response) => {
   let categories = [];
   try {
     const response: any = await Categories.findAll();
-    for(let i in response) {
+    for (let i in response) {
       categories.push(response[i].dataValues);
     }
-    if(categories.length > 0) {
+    if (categories.length > 0) {
       res.json({
-        error: "",
-        result: categories
+        error: '',
+        result: categories,
       });
       return;
-    } 
-    res.json({error: "An error has happened", result: []});
+    }
+    res.json({ error: 'An error has happened', result: [] });
   } catch (error) {
     console.error(error);
   }
@@ -41,22 +41,24 @@ export const createCategories = async (req: Request, res: Response) => {
   let categories = [
     {
       image: '/assets/cat/pie.png',
-      name: 'Pies'
-    }, {
+      name: 'Pies',
+    },
+    {
       image: '/assets/cat/donut.png',
-      name: 'Donuts'
-    }, {
+      name: 'Donuts',
+    },
+    {
       image: '/assets/cat/cookies.png',
-      name: 'Cookies'
-    }
+      name: 'Cookies',
+    },
   ];
-  for(let i in categories) {
+  for (let i in categories) {
     try {
       await Categories.create({
         image: categories[i].image,
-        name: categories[i].name
+        name: categories[i].name,
       });
-    } catch(error) {
+    } catch (error) {
       console.error(error);
     }
   }
@@ -70,62 +72,61 @@ export const products = async (req: RequestQuery, res: Response) => {
 
   let products = [];
   try {
-
     let allProducts = [];
 
-    if(Category === 0) {
+    if (Category === 0) {
       const response: any = await Products.findAll({
         where: {
           name: {
-            [Op.iLike]: `%${search}%`
-          }
+            [Op.iLike]: `%${search}%`,
+          },
         },
         offset: 6 * (Page - 1),
-        limit: 6
+        limit: 6,
       });
-      for(let i in response) {
+      for (let i in response) {
         products.push(response[i].dataValues);
       }
-      if(search !== '') {
+      if (search !== '') {
         allProducts = await Products.findAll({
           where: {
             name: {
-              [Op.iLike]: `%${search}%`
-            }
-          }
+              [Op.iLike]: `%${search}%`,
+            },
+          },
         });
       } else {
         allProducts = await Products.findAll();
       }
     }
 
-    if(Category > 0) {
+    if (Category > 0) {
       const response: any = await Products.findAll({
         where: {
           name: {
-            [Op.iLike]: `%${search}%`
+            [Op.iLike]: `%${search}%`,
           },
-          id_cat: Category
+          id_cat: Category,
         },
         offset: 6 * (Page - 1),
-        limit: 6
+        limit: 6,
       });
-      for(let i in response) {
+      for (let i in response) {
         products.push(response[i].dataValues);
       }
-      if(search !== '') {
+      if (search !== '') {
         allProducts = await Products.findAll({
           where: {
             name: {
-              [Op.iLike]: `%${search}%`
+              [Op.iLike]: `%${search}%`,
             },
-            id_cat: Category
-          }
+            id_cat: Category,
+          },
         });
       } else {
         allProducts = await Products.findAll({
           where: {
-            id_cat: Category
+            id_cat: Category,
           },
         });
       }
@@ -133,19 +134,19 @@ export const products = async (req: RequestQuery, res: Response) => {
 
     const pages = Math.ceil(allProducts.length / 6);
 
-    if(products.length > 0) {
+    if (products.length > 0) {
       res.json({
-        error: "",
+        error: '',
         result: {
           data: products,
           page: Page,
           pages,
-          total: allProducts.length
-        }
+          total: allProducts.length,
+        },
       });
       return;
-    } 
-    res.json({error: "An error has happened", result: []});
+    }
+    res.json({ error: 'An error has happened', result: [] });
   } catch (error) {
     console.error(error);
   }
@@ -177,17 +178,19 @@ export const signUp = async (req: Request, res: Response) => {
   const obj = req.body.obj;
   const { error } = signUpValidate(req.body.obj);
   if (error) {
-    return res.status(400).send(`User could not be registered: ${error.message}`);
+    return res
+      .status(400)
+      .send(`User could not be registered: ${error.message}`);
   }
   try {
     const response = await Auth.findOne({
       where: {
-        email: obj.email
-      }
+        email: obj.email,
+      },
     });
 
-    if(response) {
-      return res.status(400).send("Email already registered");
+    if (response) {
+      return res.status(400).send('Email already registered');
     }
     await Auth.create({
       name: obj.name,
@@ -196,9 +199,9 @@ export const signUp = async (req: Request, res: Response) => {
       state: obj.state,
       city: obj.city,
       address: obj.address,
-      phone: obj.phone
+      phone: obj.phone,
     });
-    return res.status(200).send("User registered with success");
+    return res.status(200).send('User registered with success');
   } catch (error) {
     return res.status(400).send(`User could not be registered: ${error}`);
   }
@@ -206,7 +209,7 @@ export const signUp = async (req: Request, res: Response) => {
 
 export const newProfile = async (req: Request, res: Response) => {
   if (!req.user) {
-    return res.status(401).send("Restricted Area");
+    return res.status(401).send('Restricted Area');
   } else {
     const obj = req.body.obj;
     const email = req.body.email;
@@ -218,37 +221,35 @@ export const newProfile = async (req: Request, res: Response) => {
       state: obj.state,
       city: obj.city,
       address: obj.address,
-      phone: obj.phone
+      phone: obj.phone,
     };
 
     const { error } = signUpValidate(req.body.obj);
     if (error) {
-      return res.status(400).send(`Profile could not be updated: ${error.message}`);
+      return res
+        .status(400)
+        .send(`Profile could not be updated: ${error.message}`);
     }
 
     try {
       const response: any = await Auth.findOne({
-        where: { email }
+        where: { email },
       });
 
-      if(email !== obj.email) {
+      if (email !== obj.email) {
         const newResponse: any = await Auth.findOne({
-          where: { email: obj.email }
+          where: { email: obj.email },
         });
-        if(newResponse) {
-          return res.status(400).send("Email already exist");
+        if (newResponse) {
+          return res.status(400).send('Email already exist');
         }
       }
 
-      if(!response) {
-        return res.status(400).send("User not found");
+      if (!response) {
+        return res.status(400).send('User not found');
       }
 
-      await Auth.update(profile,
-        {where: 
-          { email }
-        }
-      );
+      await Auth.update(profile, { where: { email } });
 
       const newProfile = {
         name: obj.name,
@@ -256,7 +257,7 @@ export const newProfile = async (req: Request, res: Response) => {
         state: obj.state,
         city: obj.city,
         address: obj.address,
-        phone: obj.phone
+        phone: obj.phone,
       };
 
       return res.status(200).json(newProfile);
@@ -269,15 +270,16 @@ export const newProfile = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   let email = req.body.email;
   let password = req.body.password;
+  console.log(email, password);
 
   try {
     const response: any = await Auth.findOne({
-      where: { email }
+      where: { email },
     });
     let user = response.dataValues;
 
     if (!user) {
-      return res.status(400).send("Username or Password incorrect");
+      return res.status(400).send('Username or Password incorrect');
     }
 
     const { error } = loginValidate(req.body);
@@ -286,19 +288,18 @@ export const login = async (req: Request, res: Response) => {
     }
 
     let pass = bcrypt.compareSync(password, user.password);
-    if (!pass) return res.status(400).send("Username or Password incorrect");
+    if (!pass) return res.status(400).send('Username or Password incorrect');
 
     const token = jwt.sign(
       { name: user.name, email },
-      (process.env.TOKEN_SECRET as string),
+      process.env.TOKEN_SECRET as string,
       { expiresIn: '1h' }
     );
 
-    res.header("authorizationtoken", token);
+    res.header('authorizationtoken', token);
     res.status(201).json(email);
-
   } catch (err) {
-    return res.status(400).send("Could not authenticated");
+    return res.status(400).send('Could not authenticated');
   }
 };
 
@@ -307,13 +308,13 @@ export const address = async (req: Request, res: Response) => {
 
   try {
     const response: any = await Auth.findOne({
-      attributes: {exclude: ['id', 'password', 'email']},
-      where: { email }
+      attributes: { exclude: ['id', 'password', 'email'] },
+      where: { email },
     });
     let user = response.dataValues;
 
     if (!user) {
-      return res.status(400).send("User not exist");
+      return res.status(400).send('User not exist');
     }
     res.json(user);
   } catch (error) {
@@ -323,7 +324,7 @@ export const address = async (req: Request, res: Response) => {
 
 export const stripePayment = async (req: Request, res: Response) => {
   if (!req.user) {
-    return res.status(401).send("Restricted Area");
+    return res.status(401).send('Restricted Area');
   } else {
     let { products } = req.body;
     try {
@@ -334,23 +335,23 @@ export const stripePayment = async (req: Request, res: Response) => {
             price_data: {
               currency: 'brl',
               product_data: {
-                name: product.name
+                name: product.name,
               },
-              unit_amount: (+(product.price) * 100).toString()
+              unit_amount: (+product.price * 100).toString(),
             },
-            quantity: (product.amount),
-          }
+            quantity: product.amount,
+          };
         }),
         mode: 'payment',
         success_url: `https://devsfood.herokuapp.com/success`,
         cancel_url: `https://devsfood.herokuapp.com/cancel`,
       });
       res.json(session.url);
-    } catch(e: any) {
+    } catch (e: any) {
       res.status(500).json({ error: e.message });
     }
   }
-}
+};
 
 export const newOrder = async (req: Request, res: Response) => {
   let order = req.body.order;
@@ -359,7 +360,7 @@ export const newOrder = async (req: Request, res: Response) => {
       email: order.email,
       date: order.date,
       products: order.products,
-      total: order.total
+      total: order.total,
     });
     res.status(200).send('Order delivered');
   } catch (error) {
@@ -369,32 +370,28 @@ export const newOrder = async (req: Request, res: Response) => {
 
 export const orders = async (req: Request, res: Response) => {
   if (!req.user) {
-    return res.status(401).send("Restricted Area");
+    return res.status(401).send('Restricted Area');
   } else {
     let email = req.body.email;
     let orders = [];
     try {
       const response: any = await Orders.findAll({
         where: { email },
-        order: [
-          ['date', 'DESC']
-        ]
+        order: [['date', 'DESC']],
       });
-      for(let i in response) {
+      for (let i in response) {
         orders.push(response[i].dataValues);
       }
-      if(orders.length > 0) {
-        res.json({ 
-          error: "",
-          result: orders
+      if (orders.length > 0) {
+        res.json({
+          error: '',
+          result: orders,
         });
         return;
-      } 
-      res.json({error: "An error has happened", result: []});
-
+      }
+      res.json({ error: 'An error has happened', result: [] });
     } catch (error) {
       res.status(400).send(error);
     }
   }
 };
-

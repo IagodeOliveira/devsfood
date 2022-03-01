@@ -1,6 +1,6 @@
 {
   "name": "devsfood",
-  "proxy": "http://server:5000",
+  "proxy": "http://localhost:5000",
   "version": "0.1.0",
   "private": true,
   "engines": {
@@ -35,7 +35,8 @@
     "start": "cd server && npm start",
     "build": "react-scripts build && (cd server && npm install)",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": [
@@ -56,9 +57,11 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/cypress": "^8.0.2",
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.6",
-    "@types/styled-components": "^5.1.16"
+    "@types/styled-components": "^5.1.16",
+    "cypress": "^9.3.1"
   }
 }

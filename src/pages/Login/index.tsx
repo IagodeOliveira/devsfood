@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { Container, LoginArea, Form, SignUp } from './styled';
 import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 import api from '../../api';
 
 const Login = () => {
@@ -14,42 +14,37 @@ const Login = () => {
   const reset = () => {
     setEmail('');
     setPassword('');
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const res = await api.login(email, password);
-    if(res && res.status === 201) {
+    if (res && res.status === 201) {
       reset();
       dispatch({
         type: 'Set_Token',
-        payload: res.email
+        payload: res.email,
       });
       const address = await api.address(email);
       dispatch({
-        type: "Set_Address",
+        type: 'Set_Address',
         payload: {
-          address
-        }
+          address,
+        },
       });
-      navigate("/");
+      navigate('/');
     }
-    if(res && res.status === 400) {
+    if (res && res.status === 400) {
       alert(res.msg);
     }
 
-    return () => {
-
-    };
+    return () => {};
   };
-
 
   return (
     <Container>
-      <LoginArea>
-        Login
-      </LoginArea>
-      <Form onSubmit={handleSubmit}>
+      <LoginArea>Login</LoginArea>
+      <Form onSubmit={handleSubmit} data-testid="form">
         <input
           type="email"
           pattern="([a-z]{1,})([_.]{1})?([a-z0-9]{1,})@([a-z0-9]{2,})\.([a-z]{1,})(\.[a-z]{1,})?"
@@ -67,16 +62,18 @@ const Login = () => {
           placeholder="Enter password* (at least 6 characters)"
           required
         />
-        <input type="submit" value="Submit" />
+        <input type="submit" value="Submit" data-testid="sub" />
       </Form>
       <SignUp>
         <span>New at DevsFood?</span>
         <span>
-          <Link className="link" to="/signup">Sign Up</Link>
+          <Link className="link" to="/signup">
+            Sign Up
+          </Link>
         </span>
       </SignUp>
     </Container>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

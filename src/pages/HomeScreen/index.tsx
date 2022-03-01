@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import ReactToolTip from "react-tooltip";
+import { useState, useEffect } from 'react';
+import ReactToolTip from 'react-tooltip';
 import {
   Container,
   CategoryArea,
@@ -8,20 +8,20 @@ import {
   ProductList,
   ProductPaginationArea,
   ProductPaginationItem,
-} from "./styled";
+} from './styled';
 
-import Header from "../../components/Header";
-import CategoryItem from "../../components/CategoryItem";
-import ProductItem from "../../components/ProductItem";
-import Modal from "../../components/Modal";
-import ModalContent from "../../components/ModalContent";
-import api from "../../api";
+import Header from '../../components/Header';
+import CategoryItem from '../../components/CategoryItem';
+import ProductItem from '../../components/ProductItem';
+import Modal from '../../components/Modal';
+import ModalContent from '../../components/ModalContent';
+import api from '../../api';
 
 let searchTimer: ReturnType<typeof setTimeout>;
 
 const HomeScreen = () => {
-  const [search, setSearch] = useState("");
-  const [searchedItem, setSearchedItem] = useState("");
+  const [search, setSearch] = useState('');
+  const [searchedItem, setSearchedItem] = useState('');
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [activeCategory, setActiveCategory] = useState(0);
@@ -34,7 +34,7 @@ const HomeScreen = () => {
   useEffect(() => {
     const getCategories = async () => {
       const res = await api.getCategories();
-      if (res.error === "") {
+      if (res.error === '') {
         setCategories(res.result);
       }
       ReactToolTip.rebuild();
@@ -42,9 +42,7 @@ const HomeScreen = () => {
 
     getCategories();
 
-    return () => {
-
-    }
+    return () => {};
   }, []);
 
   useEffect(() => {
@@ -54,7 +52,7 @@ const HomeScreen = () => {
         activePage,
         searchedItem
       );
-      if (res.error === "") {
+      if (res.error === '') {
         setProducts(res.result.data);
         setTotalPages(res.result.pages);
         setActivePage(res.result.page);
@@ -67,9 +65,7 @@ const HomeScreen = () => {
       setLoading(false);
     }, 900);
 
-    return () => {
-      
-    }
+    return () => {};
   }, [activeCategory, activePage, searchedItem]);
 
   useEffect(() => {
@@ -83,14 +79,14 @@ const HomeScreen = () => {
     <Container>
       <Header search={search} onSearch={setSearch} />
       {categories.length > 0 && (
-        <CategoryArea>
+        <CategoryArea data-testid="list">
           Select a Category
           <CategoryList>
             <CategoryItem
               data={{
                 id: 0,
-                name: "All categories",
-                image: "/assets/food-and-restaurant.png",
+                name: 'All categories',
+                image: '/assets/food-and-restaurant.png',
               }}
               active={activeCategory}
               newActive={setActiveCategory}
@@ -136,7 +132,7 @@ const HomeScreen = () => {
             .map((item, index) => (
               <ProductPaginationItem
                 key={index}
-                active={activePage === index + 1 ? "#136713" : "#FFF"}
+                active={activePage === index + 1 ? '#136713' : '#FFF'}
                 onClick={() => setActivePage(index + 1)}
               >
                 {index + 1}

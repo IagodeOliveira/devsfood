@@ -1,16 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
-import { Container, SignUpArea, Form, LabelInp, Login } from "./styled";
-import api from "../../api";
+import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Container, SignUpArea, Form, LabelInp, Login } from './styled';
+import api from '../../api';
 
 const SignUp = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [state, setState] = useState("");
-  const [city, setCity] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [state, setState] = useState('');
+  const [city, setCity] = useState('');
+  const [address, setAddress] = useState('');
+  const [phone, setPhone] = useState('');
 
   const Navigate = useNavigate();
 
@@ -21,9 +21,9 @@ const SignUp = () => {
   };
 
   const handleMask = (value: string): string => {
-    value = value.replace(/\D/g, "");
-    value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
-    return (value = value.replace(/(\d)(\d{4})$/, "$1-$2"));
+    value = value.replace(/\D/g, '');
+    value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+    return (value = value.replace(/(\d)(\d{4})$/, '$1-$2'));
   };
 
   const reset = () => {
@@ -34,20 +34,26 @@ const SignUp = () => {
     setCity('');
     setAddress('');
     setPhone('');
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const obj = {
-      name, email, password, state, city, address, phone
-    }
+      name,
+      email,
+      password,
+      state,
+      city,
+      address,
+      phone,
+    };
     const res = await api.signUp(obj);
-    if(res && res.status === 200) {
+    if (res && res.status === 200) {
       reset();
       alert('User registered with success');
       Navigate(-1);
     }
-    if(res && res.status === 400) {
+    if (res && res.status === 400) {
       alert(res.msg);
     }
   };
